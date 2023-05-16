@@ -7,7 +7,7 @@ use App\Repository\BrasseriesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BrasseriesRepository::class)]
-#[ApiResource]
+#[ApiResource(formats: 'json')]
 class Brasseries
 {
     #[ORM\Id]
