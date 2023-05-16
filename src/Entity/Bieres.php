@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\BieresRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BieresRepository::class)]
@@ -27,6 +29,18 @@ class Bieres
     #[ORM\ManyToOne(inversedBy: 'bieres')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Brasseries $brasserieId = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bieres')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Couleurs $couleur = null;
+
+    #[ORM\ManyToMany(targetEntity: Saveurs::class, inversedBy: 'bieres')]
+    private Collection $saveurs;
+
+    public function __construct()
+    {
+        $this->saveurs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,6 +91,42 @@ class Bieres
     public function setBrasserieId(?Brasseries $brasserieId): self
     {
         $this->brasserieId = $brasserieId;
+
+        return $this;
+    }
+
+    public function getCouleur(): ?Couleurs
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(?Couleurs $couleur): self
+    {
+        $this->couleur = $couleur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Saveurs>
+     */
+    public function getSaveurs(): Collection
+    {
+        return $this->saveurs;
+    }
+
+    public function addSaveur(Saveurs $saveur): self
+    {
+        if (!$this->saveurs->contains($saveur)) {
+            $this->saveurs->add($saveur);
+        }
+
+        return $this;
+    }
+
+    public function removeSaveur(Saveurs $saveur): self
+    {
+        $this->saveurs->removeElement($saveur);
 
         return $this;
     }
