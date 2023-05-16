@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\BrasseriesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BrasseriesRepository::class)]
@@ -32,6 +34,14 @@ class Brasseries
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $site = null;
+
+    #[ORM\OneToMany(mappedBy: 'brasserieId', targetEntity: Bieres::class, orphanRemoval: true)]
+    private Collection $bieres;
+
+    public function __construct()
+    {
+        $this->bieres = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +116,36 @@ class Brasseries
     public function setSite(?string $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bieres>
+     */
+    public function getBieres(): Collection
+    {
+        return $this->bieres;
+    }
+
+    public function addBiere(Bieres $biere): self
+    {
+        if (!$this->bieres->contains($biere)) {
+            $this->bieres->add($biere);
+            $biere->setBrasserieId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBiere(Bieres $biere): self
+    {
+        if ($this->bieres->removeElement($biere)) {
+            // set the owning side to null (unless already changed)
+            if ($biere->getBrasserieId() === $this) {
+                $biere->setBrasserieId(null);
+            }
+        }
 
         return $this;
     }
