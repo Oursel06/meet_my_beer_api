@@ -37,6 +37,9 @@ class Bieres
     #[ORM\ManyToMany(targetEntity: Saveurs::class, inversedBy: 'bieres')]
     private Collection $saveurs;
 
+    #[ORM\Column(length: 255)]
+    private ?string $amertume = null;
+
     public function __construct()
     {
         $this->saveurs = new ArrayCollection();
@@ -127,6 +130,18 @@ class Bieres
     public function removeSaveur(Saveurs $saveur): self
     {
         $this->saveurs->removeElement($saveur);
+
+        return $this;
+    }
+
+    public function getAmertume(): ?string
+    {
+        return $this->amertume;
+    }
+
+    public function setAmertume(string $amertume): self
+    {
+        $this->amertume = $amertume;
 
         return $this;
     }
