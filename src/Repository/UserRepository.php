@@ -56,6 +56,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
+    public function verifyByEmailAndPassword($email, $password)
+    {
+        $query = $this->createQueryBuilder('u')
+        ->where('u.email = :email')
+        ->andWhere('u.password = :password')
+        ->setParameter('email', $email)
+        ->setParameter('password', $password)
+        ->getQuery()
+        ->getResult();
+        if(sizeof($query) == 0){
+            return null;
+        }
+        return $query[0];
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */
