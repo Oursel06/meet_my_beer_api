@@ -88,13 +88,6 @@ class UserController extends AbstractController
             ], Response::HTTP_NOT_ACCEPTABLE);
         }
 
-        if(!mail($user->getEmail(),'Bienvenue sur MeetMyBeer',`Bienvenue sur MeetMyBeer ! <br/> Merci d'être parmis les premiers à tester la beta de notre application.`)){
-            return "error mail not send";
-        }
-        else{
-            
-        }
-
         return new JsonResponse(
             json_encode(['message' => 'Création du compte réussie']),
             Response::HTTP_CREATED, ['accept' => 'json'],
