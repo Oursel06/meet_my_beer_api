@@ -72,7 +72,6 @@ class UserController extends AbstractController
             ], Response::HTTP_NOT_ACCEPTABLE);
         }
 
-
         $user = new User();
         $user->setEmail($email);
         $hashedPassword = $passwordEncoder->hashPassword($user, $password);
