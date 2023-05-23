@@ -40,6 +40,9 @@ class Bieres
     #[ORM\Column(length: 255)]
     private ?string $amertume = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $asset = null;
+
     public function __construct()
     {
         $this->saveurs = new ArrayCollection();
@@ -142,6 +145,18 @@ class Bieres
     public function setAmertume(string $amertume): self
     {
         $this->amertume = $amertume;
+
+        return $this;
+    }
+
+    public function getAsset(): ?string
+    {
+        return $this->asset;
+    }
+
+    public function setAsset(?string $asset): self
+    {
+        $this->asset = $asset;
 
         return $this;
     }
