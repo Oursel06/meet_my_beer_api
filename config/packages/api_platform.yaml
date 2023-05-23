@@ -3,8 +3,3 @@ api_platform:
         allow_origin: ['*']
         allow_headers: ['Content-Type', 'Authorization']
         allow_methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
-
-nelmio_api_doc:
-    areas:
-        default:
-            path_patterns: [^/api(?!/doc$)]
